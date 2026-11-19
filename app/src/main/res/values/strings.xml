@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AulaNota</string>
+
+    <!-- Pantalla 1: Bienvenida -->
+    <string name="logo_descripcion">Logo de AulaNota</string>
+    <string name="bienvenida_eslogan">Tu horario, apuntes y tarjetas de estudio en un solo lugar.</string>
+    <string name="bienvenida_boton_comenzar">Comenzar</string>
+
+    <!-- Pantalla 2: Inicio de sesión -->
+    <string name="login_titulo">Iniciar sesión</string>
+    <string name="login_subtitulo">Ingresa con tu cuenta para continuar</string>
+    <string name="login_correo">Correo electrónico</string>
+    <string name="login_correo_error">Escribe un correo válido</string>
+    <string name="login_contrasena">Contraseña</string>
+    <string name="login_contrasena_error">Mínimo 6 caracteres</string>
+    <string name="login_mostrar">Mostrar</string>
+    <string name="login_ocultar">Ocultar</string>
+    <string name="login_boton_entrar">Iniciar sesión</string>
+    <string name="login_boton_volver">Volver</string>
+</resources>
