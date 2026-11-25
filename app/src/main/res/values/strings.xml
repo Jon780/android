@@ -1,12 +1,21 @@
 <resources>
     <string name="app_name">AulaNota</string>
 
-    <!-- Pantalla 1: Bienvenida -->
+    <!-- Generales -->
+    <string name="boton_guardar">Guardar</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="boton_eliminar">Eliminar</string>
+    <string name="boton_editar">Editar</string>
+    <string name="boton_agregar">Agregar</string>
+    <string name="boton_volver_atras">Volver</string>
+    <string name="error_generico">Ocurrió un error inesperado. Inténtalo de nuevo.</string>
+
+    <!-- Bienvenida -->
     <string name="logo_descripcion">Logo de AulaNota</string>
     <string name="bienvenida_eslogan">Tu horario, apuntes y tarjetas de estudio en un solo lugar.</string>
     <string name="bienvenida_boton_comenzar">Comenzar</string>
 
-    <!-- Pantalla 2: Inicio de sesión -->
+    <!-- Login -->
     <string name="login_titulo">Iniciar sesión</string>
     <string name="login_subtitulo">Ingresa con tu cuenta para continuar</string>
     <string name="login_correo">Correo electrónico</string>
@@ -17,4 +26,79 @@
     <string name="login_ocultar">Ocultar</string>
     <string name="login_boton_entrar">Iniciar sesión</string>
     <string name="login_boton_volver">Volver</string>
+    <string name="login_ir_registro">¿No tienes cuenta? Regístrate</string>
+    <string name="error_credenciales">Correo o contraseña incorrectos.</string>
+
+    <!-- Registro -->
+    <string name="registro_titulo">Crear cuenta</string>
+    <string name="registro_nombre">Nombre</string>
+    <string name="registro_nombre_error">Escribe tu nombre</string>
+    <string name="registro_confirmar">Confirmar contraseña</string>
+    <string name="registro_confirmar_error">Las contraseñas no coinciden</string>
+    <string name="registro_boton">Registrarme</string>
+    <string name="registro_ir_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="error_correo_existe">Ese correo ya está registrado.</string>
+
+    <!-- Materias -->
+    <string name="materias_titulo">Mis materias</string>
+    <string name="materias_vacio">Aún no tienes materias.\nToca + para agregar la primera.</string>
+    <string name="materias_agregar">Agregar materia</string>
+    <string name="materia_nueva">Nueva materia</string>
+    <string name="materia_editar">Editar materia</string>
+    <string name="materia_nombre">Nombre de la materia</string>
+    <string name="materia_nombre_error">El nombre es obligatorio</string>
+    <string name="materia_profesor">Profesor</string>
+    <string name="materia_aula">Aula</string>
+    <string name="materia_eliminar_titulo">Eliminar materia</string>
+    <string name="materia_eliminar_mensaje">Se eliminarán también sus apuntes y horarios. ¿Continuar?</string>
+    <string name="materias_salir">Salir</string>
+    <string name="materias_perfil">Perfil</string>
+
+    <!-- Detalle de materia -->
+    <string name="detalle_tab_apuntes">Apuntes</string>
+    <string name="detalle_tab_horario">Horario</string>
+    <string name="detalle_sin_apuntes">No hay apuntes en esta materia.</string>
+    <string name="detalle_sin_horarios">No hay horarios en esta materia.</string>
+    <string name="apunte_nuevo">Nuevo apunte</string>
+    <string name="apunte_editar">Editar apunte</string>
+    <string name="apunte_titulo">Título</string>
+    <string name="apunte_titulo_error">El título es obligatorio</string>
+    <string name="apunte_contenido">Contenido</string>
+    <string name="apunte_eliminar_mensaje">¿Eliminar este apunte?</string>
+    <string name="horario_nuevo">Nuevo horario</string>
+    <string name="horario_editar">Editar horario</string>
+    <string name="horario_hora_inicio">Hora inicio (HH:mm)</string>
+    <string name="horario_hora_fin">Hora fin (HH:mm)</string>
+    <string name="horario_hora_error">Usa el formato HH:mm, por ejemplo 08:30</string>
+    <string name="horario_orden_error">La hora fin debe ser mayor que la hora inicio</string>
+    <string name="horario_eliminar_mensaje">¿Eliminar este horario?</string>
+    <string name="detalle_profesor">Profesor: %1$s</string>
+    <string name="detalle_aula">Aula: %1$s</string>
+    <string name="fecha_creacion">Creado: %1$s</string>
+
+    <!-- Perfil -->
+    <string name="perfil_titulo">Mi perfil</string>
+    <string name="perfil_correo">Correo: %1$s</string>
+    <string name="perfil_guardar">Guardar nombre</string>
+    <string name="perfil_eliminar_cuenta">Eliminar mi cuenta</string>
+    <string name="perfil_eliminar_mensaje">Se borrarán tu cuenta y todos tus datos. Esta acción no se puede deshacer.</string>
+
+    <string-array name="dias_semana">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miércoles</item>
+        <item>Jueves</item>
+        <item>Viernes</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
+    <string-array name="dias_corto">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mié</item>
+        <item>Jue</item>
+        <item>Vie</item>
+        <item>Sáb</item>
+        <item>Dom</item>
+    </string-array>
 </resources>

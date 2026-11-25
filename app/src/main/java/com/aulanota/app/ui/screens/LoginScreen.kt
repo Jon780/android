@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -41,21 +42,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aulanota.app.R
 import com.aulanota.app.ui.theme.AulaNotaTheme
+import com.aulanota.app.ui.viewmodel.AuthUiState
+import com.aulanota.app.util.esCorreoValido
 
-/** Interfaz 2: Inicio de sesión. */
+/** Interfaz 2: Inicio de sesión y registro (se alterna con el botón de abajo). */
 @Composable
 fun LoginScreen(
+    estado: AuthUiState,
+    onIniciarSesion: (correo: String, contrasena: String) -> Unit,
+    onRegistrar: (nombre: String, correo: String, contrasena: String) -> Unit,
     onVolver: () -> Unit,
-    onLoginExitoso: (correo: String) -> Unit,
+    onLoginExitoso: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var modoRegistro by rememberSaveable { mutableStateOf(false) }
+    var nombre by rememberSaveable { mutableStateOf("") }
     var correo by rememberSaveable { mutableStateOf("") }
     var contrasena by rememberSaveable { mutableStateOf("") }
+    var confirmar by rememberSaveable { mutableStateOf("") }
     var mostrarContrasena by rememberSaveable { mutableStateOf(false) }
     var intentoEnvio by rememberSaveable { mutableStateOf(false) }
 
-    val correoValido = android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()
+    val nombreValido = nombre.isNotBlank()
+    val correoValido = correo.esCorreoValido()
     val contrasenaValida = contrasena.length >= 6
+    val confirmarValido = confirmar == contrasena
+
+    // Cuando el ViewModel avisa que el login fue exitoso, se navega a la siguiente pantalla.
+    LaunchedEffect(estado.exito) {
+        if (estado.exito) onLoginExitoso()
+    }
 
     Column(
         modifier = modifier
@@ -74,7 +90,7 @@ fun LoginScreen(
             modifier = Modifier.size(120.dp),
         )
         Text(
-            text = stringResource(R.string.login_titulo),
+            text = stringResource(if (modoRegistro) R.string.registro_titulo else R.string.login_titulo),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -87,6 +103,20 @@ fun LoginScreen(
         )
         Spacer(Modifier.height(32.dp))
 
+        if (modoRegistro) {
+            OutlinedTextField(
+                value = nombre,
+                onValueChange = { nombre = it },
+                label = { Text(stringResource(R.string.registro_nombre)) },
+                singleLine = true,
+                isError = intentoEnvio && !nombreValido,
+                supportingText = {
+                    if (intentoEnvio && !nombreValido) Text(stringResource(R.string.registro_nombre_error))
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(Modifier.height(8.dp))
+        }
         OutlinedTextField(
             value = correo,
             onValueChange = { correo = it.trim() },
@@ -122,15 +152,55 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth(),
         )
 
+        if (modoRegistro) {
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                value = confirmar,
+                onValueChange = { confirmar = it },
+                label = { Text(stringResource(R.string.registro_confirmar)) },
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                isError = intentoEnvio && !confirmarValido,
+                supportingText = {
+                    if (intentoEnvio && !confirmarValido) Text(stringResource(R.string.registro_confirmar_error))
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        // Mensaje de error personalizado que viene del ViewModel (credenciales incorrectas, etc.).
+        if (estado.error != null) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = stringResource(estado.error),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+
         Spacer(Modifier.height(24.dp))
         Button(
             onClick = {
                 intentoEnvio = true
-                if (correoValido && contrasenaValida) onLoginExitoso(correo)
+                if (modoRegistro) {
+                    if (nombreValido && correoValido && contrasenaValida && confirmarValido) {
+                        onRegistrar(nombre, correo, contrasena)
+                    }
+                } else if (correoValido && contrasenaValida) {
+                    onIniciarSesion(correo, contrasena)
+                }
             },
+            enabled = !estado.cargando,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(stringResource(R.string.login_boton_entrar))
+            Text(stringResource(if (modoRegistro) R.string.registro_boton else R.string.login_boton_entrar))
+        }
+        TextButton(onClick = {
+            modoRegistro = !modoRegistro
+            intentoEnvio = false
+        }) {
+            Text(stringResource(if (modoRegistro) R.string.registro_ir_login else R.string.login_ir_registro))
         }
         TextButton(onClick = onVolver) {
             Text(stringResource(R.string.login_boton_volver))
@@ -141,5 +211,13 @@ fun LoginScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun LoginPreview() {
-    AulaNotaTheme { LoginScreen(onVolver = {}, onLoginExitoso = {}) }
+    AulaNotaTheme {
+        LoginScreen(
+            estado = AuthUiState(),
+            onIniciarSesion = { _, _ -> },
+            onRegistrar = { _, _, _ -> },
+            onVolver = {},
+            onLoginExitoso = {},
+        )
+    }
 }
